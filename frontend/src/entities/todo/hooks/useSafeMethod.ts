@@ -25,5 +25,7 @@ export const useSafeMethod = () => {
     }
   };
 
-  return { execute, isLoading, error, data };
+  const resetData = () => setData(null);
+
+  return { execute, resetData, isLoading, error, data };
 };

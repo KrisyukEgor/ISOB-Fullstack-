@@ -1,9 +1,10 @@
 import { Form, Button, Alert } from 'react-bootstrap';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../../../entities/user/hooks/useAuth';
 import { useLogin } from '../../../../entities/user/hooks/useLogin';
 import { useRegister } from '../../../../entities/user/hooks/useRegister';
+import { ROUTES } from '../../../../shared/config/routes';
 
 interface FormData {
   email: string;
@@ -14,7 +15,7 @@ export const RegisterForm = () => {
   const navigate = useNavigate();
   const { register: apiRegister, isLoading: regLoading, error: regError } = useRegister();
   const { login: apiLogin, isLoading: loginLoading } = useLogin();
-  const { login: storeLogin } = useAuth();
+  const { login: storeLogin, isAuthenticated } = useAuth();
 
   const [formData, setFormData] = useState<FormData>({ email: '', password: '' });
   const [errors, setErrors] = useState<{ email?: string; password?: string }>({});
@@ -61,6 +62,12 @@ export const RegisterForm = () => {
       //
     }
   };
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate(ROUTES.TODOS);
+    }
+  }, [isAuthenticated, navigate]);
 
   const isLoading = regLoading || loginLoading;
   const error = regError;

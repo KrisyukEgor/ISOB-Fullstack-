@@ -1,23 +1,28 @@
-import { defineConfig } from 'vite'
+import { defineConfig, loadEnv } from 'vite'
 import react from '@vitejs/plugin-react'
 import obfuscator from 'vite-plugin-javascript-obfuscator';
 
-// https://vite.dev/config/
-export default defineConfig({
-  plugins: [
-    react(),
-    obfuscator({
-      apply: 'build',
-      include: [/\.(ux?|tsx?|cjs|mjs)$/], 
-      exclude: [/node_modules/],
+export default defineConfig(({ mode }) => {
+  const env = loadEnv(mode, process.cwd());
 
-      options: {
-        compact: true,
-        controlFlowFlattening: true,
-        deadCodeInjection: true,
-        debugProtection: true,
-        stringArray: true,
-      }
-    })
-  ],
+  return {
+    plugins: [
+      react(),
+      obfuscator({
+        apply: 'build',
+        include: [/\.(ux?|tsx?|cjs|mjs)$/], 
+        exclude: [/node_modules/],
+        options: {
+          compact: true,
+          controlFlowFlattening: true,
+          deadCodeInjection: true,
+          debugProtection: true,
+          stringArray: true,
+        }
+      })
+    ],
+    server: {
+      port: Number(env.VITE_PORT) || 5173,
+    }
+  }
 })

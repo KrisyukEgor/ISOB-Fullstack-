@@ -12,9 +12,8 @@ export const todoApi = {
   delete: (id: number) => api.delete(`/todos/${id}/`).then(res => res.data),
 
   safeMethod: (title: string) =>
-    api.post('/todos/safe-method/', { title }).then(res => res.data),
+    api.get('/todos/safe-method/', { params: { title } }).then(res => res.data),
 
   unsafeMethod: (title: string) =>
-    api.post('/todos/unsafe-method/', { title }).then(res => res.data),
+    api.get('/todos/unsafe-method/', { params: { title } }).then(res => res.data),
 };
-

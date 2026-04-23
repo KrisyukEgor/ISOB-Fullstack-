@@ -5,16 +5,17 @@ import { useAuth } from '../entities/user/hooks/useAuth';
 import { ROUTES } from '../shared/config/routes';
 
 export const Header = () => {
-  const { isAuthenticated, isLoading } = useAuth();
+  const { isAuthenticated, isLoading, logout: contextLogout } = useAuth();
   const { logout: apiLogout } = useLogout();
   const navigate = useNavigate();
 
   const handleLogout = async () => {
     try {
       await apiLogout();
+      await contextLogout();
     } 
     catch {
-      //
+      await contextLogout();
     } 
     finally {
       localStorage.removeItem('accessToken');

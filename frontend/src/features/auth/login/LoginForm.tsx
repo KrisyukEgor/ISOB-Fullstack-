@@ -1,5 +1,5 @@
 import { Form, Button, Alert } from 'react-bootstrap';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../../entities/user/hooks/useAuth';
 import { useLogin } from '../../../entities/user/hooks/useLogin';
@@ -13,7 +13,7 @@ interface FormData {
 
 export const LoginForm = () => {
   const navigate = useNavigate();
-  const { login: storeLogin } = useAuth();
+  const { login: storeLogin, isAuthenticated } = useAuth();
   const { login: apiLogin, isLoading, error: apiError } = useLogin();
 
   const [formData, setFormData] = useState<FormData>({ email: '', password: '' });
@@ -52,11 +52,17 @@ export const LoginForm = () => {
     try {
       const { access } = await apiLogin(formData);
       storeLogin(access);
-      navigate(ROUTES.TODOS);
     } catch {
       //
     }
   };
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate(ROUTES.TODOS);
+    }
+  }, [isAuthenticated, navigate]);
+
 
   return (
     <Form onSubmit={handleSubmit}>

@@ -30,9 +30,6 @@ export const UnsafeMethodForm = () => {
               onChange={(e) => setTitle(e.target.value)}
               placeholder="Введите значение"
             />
-            <Form.Text className="text-muted">
-              Пример инъекции: <code>'; DROP TABLE api_todo; --</code>
-            </Form.Text>
           </Form.Group>
           <Button type="submit" variant="danger" disabled={isLoading}>
             {isLoading ? 'Выполнение...' : 'Выполнить уязвимый запрос'}

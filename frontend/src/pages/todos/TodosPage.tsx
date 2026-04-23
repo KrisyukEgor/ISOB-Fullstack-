@@ -4,17 +4,16 @@ import { TodoList } from '../../features/todos/todo-list/TodoList';
 import { useTodos } from '../../entities/todo/hooks/useTodos';
 
 export const TodosPage = () => {
-  const { fetchTodos } = useTodos();
+  const { todos, fetchTodos, isLoading, error } = useTodos();
 
   return (
     <Container className="py-4">
-      <h1 className="mb-4">Мои задачи</h1>
       <Row>
         <Col lg={4}>
           <CreateTodoForm onSuccess={fetchTodos} />
         </Col>
         <Col lg={8}>
-          <TodoList />
+          <TodoList todos={todos} isLoading={isLoading} error={error} onUpdate={fetchTodos} />
         </Col>
       </Row>
     </Container>

@@ -31,9 +31,6 @@ export const SafeMethodForm = () => {
               onChange={(e) => setTitle(e.target.value)}
               placeholder="Например: Test' OR '1'='1"
             />
-            <Form.Text className="text-muted">
-              Попробуйте SQL-инъекцию: <code>Test' OR '1'='1</code>
-            </Form.Text>
           </Form.Group>
           <Button type="submit" disabled={isLoading}>
             {isLoading ? 'Выполнение...' : 'Выполнить безопасный запрос'}
