@@ -16,7 +16,7 @@ export default defineConfig(({ mode }) => {
           compact: true,
           controlFlowFlattening: true,
           deadCodeInjection: true,
-          debugProtection: true,
+          debugProtection: false,
           stringArray: true,
         }
       })
