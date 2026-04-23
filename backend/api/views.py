@@ -9,8 +9,6 @@ from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from .models import Todo
 from django.db import connection, transaction
 from django.contrib.auth import get_user_model
-from django.views.decorators.csrf import csrf_exempt
-from django.utils.decorators import method_decorator
 
 User = get_user_model()
 
@@ -132,10 +130,7 @@ class TodoViewSet(viewsets.ModelViewSet):
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def unsafe_search(request):
-    title_query = request.query_params.get('title', '')
-    user_id = request.user.id
-
-    sql = f"SELECT id, title, description FROM api_todo WHERE title = '{title_query}' AND user_id = {user_id}"
+    sql = f"SELECT id, title, description FROM api_todo"
 
     with connection.cursor() as cursor:
         cursor.execute(sql)
@@ -148,14 +143,11 @@ def unsafe_search(request):
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def safe_search(request):
-    title_query = request.query_params.get('title', '')
-    user_id = request.user.id
 
-    sql = "SELECT id, title, description FROM api_todo WHERE title = %s AND user_id = %s"
-    params = [title_query, user_id]
+    sql = "SELECT id, title, description FROM api_todo"
 
     with connection.cursor() as cursor:
-        cursor.execute(sql, params)  
+        cursor.execute(sql)  
         columns = [col[0] for col in cursor.description]
         results = [dict(zip(columns, row)) for row in cursor.fetchall()]
 
