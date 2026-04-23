@@ -1,13 +1,13 @@
 import os
 from pathlib import Path
 from datetime import timedelta
-from decouple import Config, RepositoryEnv, config, Csv  
+from decouple import config, Csv  
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-current_env = os.environ.get('ENV', 'dev')
-env_file = BASE_DIR / f'.env.{current_env}'
-config = Config(RepositoryEnv(env_file))
+# current_env = os.environ.get('ENV', 'dev')
+# env_file = BASE_DIR / f'.env.{current_env}'
+# config = Config(RepositoryEnv(env_file))
 
 SECRET_KEY = config('SECRET_KEY')  
 DEBUG = config('DEBUG', default=False, cast=bool) 
@@ -35,6 +35,7 @@ MIDDLEWARE = [
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
@@ -119,3 +120,10 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
+
+STORAGES = {
+    "staticfiles": {
+        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
+    },
+}
+
