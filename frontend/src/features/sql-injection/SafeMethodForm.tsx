@@ -19,7 +19,7 @@ export const SafeMethodForm = () => {
   return (
     <Card className="mb-4">
       <Card.Header className="bg-success text-white">
-        <h5 className="mb-0">Безопасный метод (параметризованный запрос)</h5>
+        <h5 className="mb-0">Безопасный метод </h5>
       </Card.Header>
       <Card.Body>
         <Form onSubmit={handleSubmit}>

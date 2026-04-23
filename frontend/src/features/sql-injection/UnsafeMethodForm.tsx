@@ -18,7 +18,7 @@ export const UnsafeMethodForm = () => {
   return (
     <Card className="mb-4">
       <Card.Header className="bg-danger text-white">
-        <h5 className="mb-0">Уязвимый метод (конкатенация строк)</h5>
+        <h5 className="mb-0">Уязвимый метод</h5>
       </Card.Header>
       <Card.Body>
         <Form onSubmit={handleSubmit}>
