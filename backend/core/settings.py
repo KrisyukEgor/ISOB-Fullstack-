@@ -9,7 +9,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # env_file = BASE_DIR / f'.env.{current_env}'
 # config = Config(RepositoryEnv(env_file))
 
-SECRET_KEY = config('SECRET_KEY')  
+SECRET_KEY = config('SECRET_KEY', default='django-insecure-build-key')
 DEBUG = config('DEBUG', default=False, cast=bool) 
 
 ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='127.0.0.1,localhost', cast=Csv())
@@ -70,11 +70,11 @@ WSGI_APPLICATION = 'core.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql', 
-        'NAME': config('POSTGRES_DB'),        
-        'USER': config('POSTGRES_USER'),      
-        'PASSWORD': config('POSTGRES_PASSWORD'),
+        'NAME': config('POSTGRES_DB', default='postgres'),        
+        'USER': config('POSTGRES_USER', default='postgres'),      
+        'PASSWORD': config('POSTGRES_PASSWORD', default='postgres'),
         'HOST': config('DB_HOST', default='127.0.0.1'),
-        'PORT': config('DB_PORT', default='5433'), 
+        'PORT': config('DB_PORT', default='5432'), 
     }
 }
 
