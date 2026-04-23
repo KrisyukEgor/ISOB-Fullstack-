@@ -130,7 +130,9 @@ class TodoViewSet(viewsets.ModelViewSet):
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def unsafe_search(request):
-    sql = f"SELECT id, title, description FROM api_todo"
+    title_query = request.query_params.get('title', '')
+
+    sql = f"SELECT id, title, description FROM api_todo WHERE title = '{title_query}'"
 
     with connection.cursor() as cursor:
         cursor.execute(sql)
@@ -143,11 +145,13 @@ def unsafe_search(request):
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def safe_search(request):
+    title_query = request.query_params.get('title', '')
 
-    sql = "SELECT id, title, description FROM api_todo"
+    sql = "SELECT id, title, description FROM api_todo WHERE title = %s"
+    params = [title_query]
 
     with connection.cursor() as cursor:
-        cursor.execute(sql)  
+        cursor.execute(sql, params)  
         columns = [col[0] for col in cursor.description]
         results = [dict(zip(columns, row)) for row in cursor.fetchall()]
 
