@@ -1,0 +1,15 @@
+:root {
+  --color-bg-main: #121212;      
+  --color-bg-card: #212121;     
+  --color-bg-input: #333333; 
+
+  --color-text-primary: #ffffff;    
+  --color-text-secondary: #a0a0a0; 
+  
+  --color-accent: #ff4d4d;       
+  --color-accent-hover: #ff6666;    
+  
+  --color-border: rgba(255, 255, 255, 0.05);
+
+  --input-focus-border: #444444;
+}

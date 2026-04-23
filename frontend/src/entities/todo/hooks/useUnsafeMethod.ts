@@ -1,0 +1,29 @@
+import { useState } from 'react';
+import { todoApi } from '../api/todoApi';
+
+export const useUnsafeMethod = () => {
+  const [data, setData] = useState<any>(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<Error | null>(null);
+
+  const execute = async (title: string) => {
+    setIsLoading(true);
+    setError(null);
+
+    try {
+      const result = await todoApi.unsafeMethod(title);
+      setData(result);
+
+      return result;
+    } 
+    catch (err) {
+      setError(err as Error);
+      throw err;
+      
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  return { execute, isLoading, error, data };
+};
